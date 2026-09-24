@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desconto e Somas para Boi de Termo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --verde:#1F6B3B; --verde-esc:#134A2A; --verde-claro:#3E9B5F;
+  --amarelo:#F2C14E; --azul:#0B2A4A; --azul-esc:#071B31;
+  --creme:#F5F3EC; --branco:#FFFFFF; --cinza:#E4E1D8; --texto:#1D2B22; --mudo:#5E6A62;
+  --serif:'Libre Baskerville',Georgia,serif; --sans:'Source Sans 3',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--creme) url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22260%22%20height%3D%22260%22%20viewBox%3D%220%200%20260%20260%22%20fill%3D%22none%22%20stroke%3D%22%231F6B3B%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20opacity%3D%220.16%22%3E%0A%0A%3Cg%20transform%3D%22translate%28160%2C150%29%20scale%280.55%29%22%3E%0A%3Cpath%20d%3D%22M0%20120V40l60%2060%2060-60v80%22%20stroke-width%3D%229%22/%3E%0A%3Cpath%20d%3D%22M0%2040C-8%2024-4%208%208%200M120%2040c8-16%204-32-8-40%22%20stroke-width%3D%227%22/%3E%0A%3C/g%3E%0A%3Cpath%20d%3D%22M0%20235h260%22%20stroke-dasharray%3D%2214%2010%22%20opacity%3D%22.6%22/%3E%0A%3Cpath%20d%3D%22M20%20235v-14M70%20235v-14M120%20235v-14M170%20235v-14M220%20235v-14%22%20opacity%3D%22.6%22/%3E%0A%3C/svg%3E") repeat;background-attachment:fixed;color:var(--texto);font-size:15px;line-height:1.45}
+header{background:linear-gradient(120deg,var(--verde-esc) 0%,var(--verde) 55%,var(--verde-claro) 100%);color:#fff;padding:26px 28px 66px;border-bottom:6px solid var(--amarelo);position:relative;overflow:hidden}
+header::after{content:'';position:absolute;left:0;right:0;bottom:0;height:90px;background:url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%201200%2090%22%20preserveAspectRatio%3D%22none%22%20fill%3D%22none%22%3E%0A%3Cpath%20d%3D%22M0%2062%20Q150%2045%20300%2058%20T600%2055%20T900%2060%20T1200%2052%20V90%20H0%20Z%22%20fill%3D%22%230F3A21%22%20opacity%3D%22.55%22/%3E%0A%3Cg%20fill%3D%22%230B2E1A%22%20opacity%3D%22.9%22%3E%0A%3Cpath%20d%3D%22M180%2062c0-10%208-16%2018-16h30c10%200%2014%206%2020%206%204%200%206-8%2012-8%208%200%2010%206%2010%2012v12h-90zM190%2068v8h6v-8zM250%2068v8h6v-8z%22/%3E%0A%3Cpath%20d%3D%22M760%2060c0-8%206-13%2014-13h24c8%200%2011%205%2016%205%203%200%205-6%2010-6%206%200%208%205%208%2010v10h-72zM768%2065v7h5v-7zM816%2065v7h5v-7z%22/%3E%0A%3Cpath%20d%3D%22M1010%2063c0-9%207-15%2016-15h28c9%200%2013%206%2018%206%204%200%206-7%2011-7%207%200%209%205%209%2011v11h-82zM1018%2069v7h6v-7zM1072%2069v7h6v-7z%22/%3E%0A%3C/g%3E%0A%3Cg%20stroke%3D%22%23F2C14E%22%20stroke-width%3D%222%22%20opacity%3D%22.55%22%3E%3Cpath%20d%3D%22M0%2074h1200%22/%3E%3Cpath%20d%3D%22M0%2084h1200%22%20opacity%3D%22.6%22/%3E%0A%3Cpath%20d%3D%22M40%2060v30M120%2060v30M200%2060v30M280%2060v30M360%2060v30M440%2060v30M520%2060v30M600%2060v30M680%2060v30M760%2060v30M840%2060v30M920%2060v30M1000%2060v30M1080%2060v30M1160%2060v30%22/%3E%3C/g%3E%0A%3C/svg%3E") bottom/100% 100% no-repeat;pointer-events:none}
+header>*{position:relative;z-index:1}
+header .eyebrow{color:var(--amarelo);font-weight:700;font-size:12px;letter-spacing:.14em;margin-bottom:6px}
+header h1{font-family:var(--serif);font-size:32px;line-height:1.1;margin-bottom:8px}
+header p{font-size:14px;opacity:.95}
+header p b{color:var(--amarelo)}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 20px 30px}
+.como{background:#FFF7DD;border:1px solid #E8D48A;border-left:6px solid var(--amarelo);border-radius:8px;padding:14px 18px;font-size:14px;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:start}
+.card{background:rgba(255,255,255,.96);border-radius:14px;padding:26px 28px;box-shadow:0 2px 10px rgba(20,60,30,.08)}
+h2{font-family:var(--serif);font-size:22px;color:var(--verde-esc);margin-bottom:4px}
+.sub{color:var(--mudo);font-size:13px;margin-bottom:18px}
+h3{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--verde-esc);margin:26px 0 12px;padding-top:18px;border-top:1px solid var(--cinza)}
+h3.first{border:0;padding-top:0;margin-top:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
+.row3{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:12px 20px;align-items:end;margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:600;color:var(--texto);margin-bottom:4px}
+label small{font-weight:400;color:var(--mudo)}
+.in{display:flex;align-items:center;border:1.5px solid #C9D3CC;border-radius:8px;background:#fff;height:40px;overflow:hidden}
+.in:focus-within{border-color:var(--verde);box-shadow:0 0 0 3px rgba(31,107,59,.15)}
+.in span{padding:0 10px;color:var(--mudo);font-size:13px;background:#F3F5F3;height:100%;display:flex;align-items:center;border-right:1px solid #E3E8E4}
+.in span.r{border-right:0;border-left:1px solid #E3E8E4}
+.in input{flex:1;border:0;outline:0;font:inherit;font-size:15px;padding:0 12px;min-width:0;background:transparent}
+.hint{font-size:12px;color:var(--mudo);margin-top:6px}
+.nome{font-size:14px;font-weight:600;padding-bottom:10px}
+table{width:100%;border-collapse:collapse;margin-top:6px;table-layout:fixed}
+table th:nth-child(1){width:38%}table th:nth-child(2),table th:nth-child(3){width:22%}table th:nth-child(4){width:18%}
+td:first-child{white-space:nowrap}
+th{text-align:left;font-size:11px;letter-spacing:.06em;color:var(--mudo);padding:6px 4px;border-bottom:1px solid var(--cinza)}
+th:last-child,td:last-child{text-align:right}
+td{padding:10px 4px;border-bottom:1px solid #EEEBE2;vertical-align:middle;font-size:14px}
+td .in{height:36px}
+td.v{font-weight:700;color:var(--verde-esc);white-space:nowrap}
+td.igual{color:var(--verde);font-weight:600}
+.tg{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--mudo);margin-left:6px;cursor:pointer;white-space:nowrap}
+.tg input{width:16px;height:16px;accent-color:var(--verde);cursor:pointer}
+tr.off td{opacity:.45}tr.off td .tg{opacity:1}
+.res{background:linear-gradient(180deg,var(--azul) 0%,var(--azul-esc) 100%);color:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 24px rgba(11,42,74,.35);position:sticky;top:16px}
+.res .head{background:linear-gradient(120deg,var(--verde) 0%,var(--verde-claro) 100%);padding:20px 22px 16px}
+.res .head .eyebrow{color:var(--amarelo);font-weight:700;font-size:11px;letter-spacing:.14em;margin-bottom:4px}
+.res .head h2{color:#fff;font-size:22px;line-height:1.15}
+.res .head p{font-size:13px;opacity:.9;margin-top:6px}
+.res .body{padding:18px 22px 22px}
+.destaque{border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:14px;margin-bottom:8px}
+.destaque .lab{font-size:11px;letter-spacing:.12em;color:var(--amarelo);font-weight:700}
+.destaque .big{font-family:var(--serif);font-size:38px;line-height:1.1;margin:6px 0 4px}
+.destaque .mt{font-size:13px;opacity:.9}
+.destaque .mt b{color:var(--amarelo)}
+.linha{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:13px}
+.linha .k{opacity:.9}.linha .v{font-weight:700;white-space:nowrap}
+.linha .v.mais{color:#8FE0A6}.linha .v.menos{color:#FFB3A0}.linha .v.amar{color:var(--amarelo)}
+.regra{background:rgba(255,255,255,.08);border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.45;margin-top:14px;opacity:.95}
+.regra b{color:var(--amarelo)}
+.todos{margin-top:16px;border:1px solid rgba(255,255,255,.18);border-radius:10px;overflow:hidden}
+.todos .t{background:rgba(255,255,255,.08);padding:9px 14px;font-size:11px;letter-spacing:.1em;color:var(--amarelo);font-weight:700}
+.todos table{margin:0}
+.todos th{color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.12);padding:6px 14px}
+.todos td{color:#fff;border-color:rgba(255,255,255,.08);padding:8px 14px;font-size:13px}
+.todos td:last-child{font-weight:700}
+.btns{display:flex;gap:10px;margin-top:16px}
+.btn{flex:1;height:42px;border-radius:8px;border:0;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.btn.amar{background:var(--amarelo);color:var(--azul-esc)}
+.btn.line{background:transparent;border:2px solid rgba(255,255,255,.7);color:#fff}
+.btn:active{transform:translateY(1px)}
+footer{text-align:center;color:var(--mudo);font-size:12px;padding:18px 20px 30px}
+footer b{color:var(--texto)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--verde-esc);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:.25s}
+.toast.on{opacity:1;transform:translateX(-50%)}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.res{position:static}.row3{grid-template-columns:1fr 1fr 1fr}.row3 .nome{grid-column:1/-1;padding-bottom:0}}
+@media (max-width:560px){table th:nth-child(3),table td:nth-child(3){display:none}.row{grid-template-columns:1fr}.row3{grid-template-columns:1fr 1fr}header h1{font-size:26px}.card{padding:20px 16px}}
+@media print{@page{size:A4;margin:10mm}body{background:#fff !important}header::after{display:none}.tg{display:none}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}.res{-webkit-print-color-adjust:exact;print-color-adjust:exact;position:static;box-shadow:none}.btns,.como{display:none}.grid{grid-template-columns:1fr 340px}.card{box-shadow:none;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">COMPRA DE GADO · MATO GROSSO</div>
+  <h1>Desconto e Somas para Boi de Termo</h1>
+  <p><b>1.</b> Informe a B3 &nbsp;·&nbsp; <b>2.</b> Ajuste as condições &nbsp;·&nbsp; <b>3.</b> Veja o preço final de cada categoria.</p>
+</header>
+
+<div class="wrap">
+  <div class="como"><b>Como usar:</b> preencha o valor da B3 e os ajustes negociados. Em qualquer campo de ajuste, use + para somar e − para descontar. A cotação final por arroba (@) aparecerá automaticamente no quadro azul.</div>
+
+  <div class="grid">
+    <!-- ================= CONDIÇÕES ================= -->
+    <div class="card">
+      <h2>Condições do termo</h2>
+      <div class="sub">Base de cálculo para machos e referência das fêmeas.</div>
+
+      <div class="row" style="margin-bottom:14px">
+        <div><label>Mês do preço <small>(aparece no PDF e no WhatsApp)</small></label><div class="in"><input type="text" id="mes" placeholder="Ex.: Outubro/26" value=""></div></div>
+      </div>
+      <div class="row">
+        <div><label>Preço B3 São Paulo <small>(R$/@)</small></label><div class="in"><span>R$</span><input type="number" step="0.01" id="b3" value="389"></div></div>
+        <div><label>Diferencial MT <small>(%) · use + ou −</small></label><div class="in"><input type="number" step="0.01" id="difmt" value="-2.00"><span class="r">%</span></div></div>
+      </div>
+
+      <h3>BONIFICAÇÕES DE ABATE · MACHOS</h3>
+      <div class="row3"><div class="nome">Animal jovem (0 a 4 dentes)<br><label class="tg" style="margin:4px 0 0"><input type="checkbox" id="m_bjov" checked>mostrar boi jovem</label><br><label class="tg" style="margin:2px 0 0"><input type="checkbox" id="a_jov" checked>mostrar bônus</label></div>
+        <div><label>% bônus</label><div class="in"><input type="number" step="0.01" id="jov_p" value="1"><span class="r">%</span></div></div>
+        <div><label>R$ adicional/@</label><div class="in"><span>R$</span><input type="number" step="0.01" id="jov_r" value="0"></div></div></div>
+      <div class="row3"><div class="nome">Ciclo completo<br><label class="tg" style="margin:4px 0 0"><input type="checkbox" id="a_cic" checked>mostrar bônus</label></div>
+        <div><label>% bônus</label><div class="in"><input type="number" step="0.01" id="cic_p" value="0.50"><span class="r">%</span></div></div>
+        <div><label>R$ adicional/@</label><div class="in"><span>R$</span><input type="number" step="0.01" id="cic_r" value="0"></div></div></div>
+      <div class="row3"><div class="nome">Tier 1<br><label class="tg" style="margin:4px 0 0"><input type="checkbox" id="a_tier" checked>mostrar bônus</label></div>
+        <div><label>% bônus</label><div class="in"><input type="number" step="0.01" id="tier_p" value="0"><span class="r">%</span></div></div>
+        <div><label>R$ adicional/@</label><div class="in"><span>R$</span><input type="number" step="0.01" id="tier_r" value="0"></div></div></div>
+
+      <h3>DESCONTO COMERCIAL <span style="font-weight:400;letter-spacing:0;color:var(--mudo)">(exemplo: à vista ou qualquer outro)</span></h3>
+      <div class="sub" style="margin-bottom:12px">Entram no boi jovem, novilhas e vacas. Use sinal positivo para descontar e sinal negativo para acrescentar.</div>
+      <div class="row">
+        <div><label>Desconto comercial (%)</label><div class="in"><input type="number" step="0.01" id="ger_p" value="0"><span class="r">%</span></div></div>
+        <div><label>Desconto comercial (R$/@)</label><div class="in"><span>R$</span><input type="number" step="0.01" id="ger_r" value="0"></div></div>
+      </div>
+      <div class="hint">O desconto em % é aplicado sobre a base MT; o desconto em R$ é subtraído depois, antes do desconto específico de cada categoria.</div>
+
+      <h3>DESCONTO EXCLUSIVO · BOI 6 A 8 DENTES <label class="tg" style="float:right;letter-spacing:0"><input type="checkbox" id="m_b68" checked>mostrar boi 6–8</label></h3>
+      <div class="sub" style="margin-bottom:12px">Boi 6–8 = preço MT + Tier 1 − este desconto. Use valor negativo para acrescentar.</div>
+      <div class="row">
+        <div><label>Desconto do boi 6–8 dentes (%)</label><div class="in"><input type="number" step="0.01" id="b68_p" value="0"><span class="r">%</span></div></div>
+        <div><label>Desconto do boi 6–8 dentes (R$/@)</label><div class="in"><span>R$</span><input type="number" step="0.01" id="b68_r" value="5"></div></div>
+      </div>
+
+      <h3>DIFERENCIAIS DE FÊMEAS <span style="float:right;font-weight:400;letter-spacing:0;color:var(--mudo)">% sobre a base comercial, R$ subtraído depois · use − para bonificar</span></h3>
+      <table>
+        <thead><tr><th>CATEGORIA</th><th>DESCONTO (%)</th><th>DESCONTO (R$/@)</th><th>VALOR FINAL</th></tr></thead>
+        <tbody>
+          <tr id="tr_n0"><td>Novilha 11 a 12@ <label class="tg"><input type="checkbox" id="m_n0" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n0" value="6.5"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n0" value="0"></div></td><td class="v" id="v_n0"></td></tr>
+          <tr id="tr_n1"><td>Novilha 12 a 13@ <label class="tg"><input type="checkbox" id="m_n1" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n1" value="5"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n1" value="0"></div></td><td class="v" id="v_n1"></td></tr>
+          <tr id="tr_n2"><td>Novilha 13 a 14@ <label class="tg"><input type="checkbox" id="m_n2" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n2" value="3.5"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n2" value="0"></div></td><td class="v" id="v_n2"></td></tr>
+          <tr id="tr_n3"><td>Novilha 14@ acima <label class="tg"><input type="checkbox" id="m_n3" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n3" value="2.5"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n3" value="0"></div></td><td class="v" id="v_n3"></td></tr>
+          <tr id="tr_n4"><td>Novilha 15@ acima <label class="tg"><input type="checkbox" id="m_n4" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n4" value="0"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n4" value="0"></div></td><td class="v" id="v_n4"></td></tr>
+          <tr id="tr_n5"><td>Novilha 16@ acima <label class="tg"><input type="checkbox" id="m_n5" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n5" value="0"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n5" value="0"></div></td><td class="v" id="v_n5"></td></tr>
+          <tr id="tr_n6"><td>Novilha 17@ acima <label class="tg"><input type="checkbox" id="m_n6" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_n6" value="0"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_n6" value="0"></div></td><td class="v" id="v_n6"></td></tr>
+          <tr id="tr_c1"><td>Vaca 12@ acima <label class="tg"><input type="checkbox" id="m_c1" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_c1" value="10"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_c1" value="0"></div></td><td class="v" id="v_c1"></td></tr>
+          <tr id="tr_c2"><td>Vaca 14@ acima <label class="tg"><input type="checkbox" id="m_c2" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_c2" value="0"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_c2" value="0"></div></td><td class="v" id="v_c2"></td></tr>
+          <tr id="tr_c0"><td>Vaca 15@ acima <label class="tg"><input type="checkbox" id="m_c0" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_c0" value="8"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_c0" value="0"></div></td><td class="v" id="v_c0"></td></tr>
+          <tr id="tr_c3"><td>Vaca 16@ acima <label class="tg"><input type="checkbox" id="m_c3" checked>mostrar</label></td><td><div class="in"><input type="number" step="0.01" id="p_c3" value="0"><span class="r">%</span></div></td><td><div class="in"><span>R$</span><input type="number" step="0.01" id="r_c3" value="0"></div></td><td class="v" id="v_c3"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ================= RESULTADOS ================= -->
+    <aside class="res">
+      <div class="head">
+        <div class="eyebrow">COTAÇÃO CONSOLIDADA</div>
+        <h2>Resultados finais por categoria</h2>
+        <p>Valores em R$/@ calculados automaticamente.</p>
+      </div>
+      <div class="body">
+        <div class="linha" id="ln_mes" style="display:none;border-top:0;padding-top:0"><span class="k">Mês do preço</span><span class="v amar" id="l_mes"></span></div>
+        <div class="destaque">
+          <div class="lab">PREÇO FINAL · BOI 6–8 DENTES</div>
+          <div class="big" id="r_b68"></div>
+          <div class="mt">Preço MT: <b id="r_mt_small"></b></div>
+          <div class="mt" style="margin-top:2px">Desconto exclusivo 6–8 aplicado: <b id="r_b68_desc"></b></div>
+        </div>
+        <div class="linha"><span class="k">Referência B3</span><span class="v amar" id="l_b3"></span></div>
+        <div class="linha"><span class="k">Preço MT após diferencial</span><span class="v" id="l_mt"></span></div>
+        <div class="linha" id="ln_tier"><span class="k">Tier 1 aplicado no boi 6–8</span><span class="v" id="l_tier"></span></div>
+        <div class="linha"><span class="k">Desconto boi 6–8 dentes</span><span class="v" id="l_d68"></span></div>
+        <div class="linha"><span class="k">Desconto boi 6–8</span><span class="v" id="l_d68p"></span></div>
+        <div class="linha" id="ln_cic"><span class="k">Ciclo + Tier (jovem/fêmeas)</span><span class="v" id="l_cic"></span></div>
+        <div class="linha"><span class="k">Desconto comercial (jovem/fêmeas)</span><span class="v" id="l_ger"></span></div>
+        <div class="linha" id="ln_jov"><span class="k">Bônus exclusivo do boi jovem</span><span class="v" id="l_jov"></span></div>
+        <div class="linha"><span class="k">Preço boi jovem (0–4 dentes)</span><span class="v amar" id="l_jovp"></span></div>
+
+        <div class="regra"><b>Regra de cálculo:</b> preço MT = B3 São Paulo + diferencial MT. Boi 6–8 = preço MT + Tier 1 − desconto 6–8. Boi jovem = base comercial + bônus de jovem. Base comercial = preço MT + ciclo completo + Tier 1 − desconto comercial. Fêmeas = base comercial − desconto da faixa (% e R$). Todos os ajustes aceitam + e −.</div>
+
+        <div class="todos">
+          <div class="t">TODOS OS PREÇOS FINAIS</div>
+          <table><thead><tr><th>CATEGORIA</th><th>PREÇO FINAL</th></tr></thead>
+          <tbody id="tabela"></tbody></table>
+        </div>
+
+        <div class="btns">
+          <button class="btn amar" id="btnpdf" onclick="gerarPDF()">Salvar em PDF</button>
+          <button class="btn line" onclick="copiar()">Copiar p/ WhatsApp</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer><span id="pdfdata" style="display:none"></span>Ferramenta de apoio à negociação. Valores informativos e sujeitos à validação comercial.<br><b>Compra de Gado</b> · Pablo Mannarelli · 65 9 9236-9568</footer>
+<div class="toast" id="toast">Copiado</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const n=id=>{const v=parseFloat($(id).value);return isNaN(v)?0:v};
+const brl=v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const sgn=v=>(v>=0?'+ ':'− ')+brl(Math.abs(v));
+const cls=v=>v>0?'mais':(v<0?'menos':'');
+const FEM=[['n0','Novilha 11 a 12@'],['n1','Novilha 12 a 13@'],['n2','Novilha 13 a 14@'],['n3','Novilha 14@ acima'],['n4','Novilha 15@ acima'],['n5','Novilha 16@ acima'],['n6','Novilha 17@ acima']];
+const VAC=[['c1','Vaca 12@ acima'],['c2','Vaca 14@ acima'],['c0','Vaca 15@ acima'],['c3','Vaca 16@ acima']];
+const show=id=>{const m=$('m_'+id);return !m||m.checked};
+let ULT={};
+
+function calc(){
+  const b3=n('b3');
+  const mt=b3*(1+n('difmt')/100);
+  const on=id=>$(id).checked;
+  const tier=on('a_tier')?mt*n('tier_p')/100+n('tier_r'):0;
+  const cic=on('a_cic')?mt*n('cic_p')/100+n('cic_r'):0;
+  const jov=on('a_jov')?mt*n('jov_p')/100+n('jov_r'):0;
+  const ger=mt*n('ger_p')/100+n('ger_r');
+  const d68=mt*n('b68_p')/100+n('b68_r');
+  const b68=mt+tier-d68;
+  const base=mt+cic+tier-ger;
+  const bjov=base+jov;
+  const fem=id=>base*(1-n('p_'+id)/100)-n('r_'+id);
+  const bois=[['Boi 6 a 8 dentes',b68,'b68'],['Boi jovem 0 a 4 dentes',bjov,'bjov']];
+  const nov=FEM.map(([id,c])=>[c,fem(id),id]);
+  const vac=VAC.map(([id,c])=>[c,fem(id),id]);
+
+  $('r_b68').textContent=brl(b68);
+  $('r_mt_small').textContent=brl(mt)+'/@';
+  $('r_b68_desc').textContent=brl(d68);
+  $('l_b3').textContent=brl(b3);
+  $('l_mt').textContent=brl(mt);
+  set('l_tier',tier); set('l_d68',-d68);
+  $('l_d68p').textContent=(mt?(d68/mt*100):0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+  set('l_cic',cic+tier); set('l_ger',-ger); set('l_jov',jov);
+  $('l_jovp').textContent=brl(bjov);
+  const mesv=$('mes').value.trim(); $('ln_mes').style.display=mesv?'':'none'; $('l_mes').textContent=mesv;
+  $('ln_tier').style.display=on('a_tier')?'':'none'; $('ln_cic').style.display=(on('a_cic')||on('a_tier'))?'':'none'; $('ln_jov').style.display=on('a_jov')?'':'none';
+  [['a_jov','jov_p','jov_r'],['a_cic','cic_p','cic_r'],['a_tier','tier_p','tier_r']].forEach(([a,x,y])=>{const o=on(a)?'1':'.45';$(x).parentElement.style.opacity=o;$(y).parentElement.style.opacity=o});
+  [...nov,...vac].forEach(([c,v,id])=>{$('v_'+id).textContent=brl(v);$('tr_'+id).classList.toggle('off',!show(id))});
+  const vis=[...bois,...nov,...vac].filter(x=>show(x[2]));
+  $('tabela').innerHTML=vis.map(([c,v])=>`<tr><td>${c}</td><td>${brl(v)}</td></tr>`).join('');
+  ULT={b3,mt,dif:n('difmt'),mes:$('mes').value.trim(),bois:bois.filter(x=>show(x[2])),nov:nov.filter(x=>show(x[2])),vac:vac.filter(x=>show(x[2]))};
+}
+function set(id,v){const e=$(id);e.textContent=sgn(v);e.className='v '+cls(v)}
+function copiar(){
+  const agora=new Date(); const d=agora.toLocaleDateString('pt-BR')+' às '+agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  const pct=v=>(v>=0?'+':'−')+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+  const L=x=>`${x[0]}: *${brl(x[1])}*`;
+  let t=`*BOI DE TERMO – COTAÇÃO*\n`;
+  if(ULT.mes) t+=`Mês do preço: *${ULT.mes}*\n`;
+  t+=`Enviado em: ${d}\n\n`;
+  t+=`B3 SP: *${brl(ULT.b3)}/@*\nDiferencial MT: ${pct(ULT.dif)}\nPreço MT: *${brl(ULT.mt)}/@*\n\n`;
+  t+=`*BOIS*\n`+ULT.bois.map(L).join('\n')+`\n\n`;
+  t+=`*NOVILHAS*\n`+ULT.nov.map(L).join('\n')+`\n\n`;
+  t+=`*VACAS*\n`+ULT.vac.map(L).join('\n')+`\n\n`;
+  t+=`_Valores informativos, sujeitos à validação comercial._\nCompra de Gado · Pablo Mannarelli · 65 9 9236-9568`;
+  navigator.clipboard.writeText(t).then(()=>{const x=$('toast');x.classList.add('on');setTimeout(()=>x.classList.remove('on'),1800)});
+}
+window.addEventListener('beforeprint',()=>{const a=new Date();const e=$('pdfdata');e.style.display='block';e.style.marginBottom='6px';e.textContent='Gerado em '+a.toLocaleDateString('pt-BR')+' às '+a.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});
+window.addEventListener('afterprint',()=>{$('pdfdata').style.display='none'});
+let DL=null; if(window.claude&&claude.use){claude.use('downloads').then(d=>{DL=d}).catch(()=>{})}
+async function gerarPDF(){
+  const btn=$('btnpdf'); const old=btn.textContent; btn.textContent='Gerando...'; btn.disabled=true;
+  try{
+    const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:'mm',format:'a4'});
+    const W=210, M=16; let y=0;
+    const agora=new Date(); const dh=agora.toLocaleDateString('pt-BR')+' às '+agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const pct=v=>(v>=0?'+':'-')+Math.abs(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+    // cabeçalho
+    doc.setFillColor(19,74,42); doc.rect(0,0,W,34,'F'); doc.setFillColor(242,193,78); doc.rect(0,34,W,2,'F');
+    doc.setTextColor(242,193,78); doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.text('COMPRA DE GADO · MATO GROSSO',M,11);
+    doc.setTextColor(255,255,255); doc.setFontSize(18); doc.text('Cotação Boi de Termo',M,21);
+    doc.setFont('helvetica','normal'); doc.setFontSize(9);
+    doc.text((ULT.mes?'Mês do preço: '+ULT.mes+'   ·   ':'')+'Gerado em '+dh,M,28);
+    y=46;
+    // referências
+    doc.setTextColor(30,43,34); doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.text('Referências',M,y); y+=6;
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    const ref=[['B3 São Paulo',brl(ULT.b3)+'/@'],['Diferencial MT',pct(ULT.dif)],['Preço MT',brl(ULT.mt)+'/@']];
+    ref.forEach(([k,v])=>{doc.text(k,M,y); doc.setFont('helvetica','bold'); doc.text(v,W-M,y,{align:'right'}); doc.setFont('helvetica','normal'); y+=6});
+    y+=4;
+    const grupo=(titulo,linhas)=>{
+      if(!linhas.length) return;
+      doc.setFillColor(11,42,74); doc.rect(M,y-4.5,W-2*M,7,'F');
+      doc.setTextColor(242,193,78); doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.text(titulo,M+3,y); y+=8;
+      doc.setTextColor(30,43,34); doc.setFontSize(10.5);
+      linhas.forEach(([c,v],i)=>{
+        if(i%2===0){doc.setFillColor(245,243,236); doc.rect(M,y-4.5,W-2*M,7,'F')}
+        doc.setFont('helvetica','normal'); doc.text(c,M+3,y);
+        doc.setFont('helvetica','bold'); doc.text(brl(v)+'/@',W-M-3,y,{align:'right'}); y+=7;
+      });
+      y+=5;
+    };
+    grupo('BOIS',ULT.bois); grupo('NOVILHAS',ULT.nov); grupo('VACAS',ULT.vac);
+    // rodapé
+    doc.setDrawColor(200,200,200); doc.line(M,282,W-M,282);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(94,106,98);
+    doc.text('Valores informativos, sujeitos à validação comercial.',M,287);
+    doc.setFont('helvetica','bold'); doc.text('Compra de Gado · Pablo Mannarelli · 65 9 9236-9568',W-M,287,{align:'right'});
+    const nome='cotacao-boi-termo-'+agora.toISOString().slice(0,10)+'.pdf';
+    if(DL){ try{ await DL.save({filename:nome,data:doc.output('blob')}); }catch(e){ if(e&&e.code!=='declined') doc.save(nome); } }
+    else { try{ doc.save(nome); }catch(e){ window.open(doc.output('bloburl'),'_blank'); } }
+  }catch(e){ alert('Não foi possível gerar o PDF: '+(e.message||e)); }
+  btn.textContent=old; btn.disabled=false;
+}
+document.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
