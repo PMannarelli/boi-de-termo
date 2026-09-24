@@ -137,7 +137,7 @@ footer b{color:var(--texto)}
         <div><label>R$ adicional/@</label><div class="in"><span>R$</span><input type="number" step="0.01" id="tier_r" value="0"></div></div></div>
 
       <h3>DESCONTO COMERCIAL <span style="font-weight:400;letter-spacing:0;color:var(--mudo)">(exemplo: à vista ou qualquer outro)</span></h3>
-      <div class="sub" style="margin-bottom:12px">Entram no boi jovem, novilhas e vacas. Use sinal positivo para descontar e sinal negativo para acrescentar.</div>
+      <div class="sub" style="margin-bottom:12px">Entra em todas as categorias: boi 6–8, boi jovem, novilhas e vacas. Use sinal positivo para descontar e sinal negativo para acrescentar.</div>
       <div class="row">
         <div><label>Desconto comercial (%)</label><div class="in"><input type="number" step="0.01" id="ger_p" value="0"><span class="r">%</span></div></div>
         <div><label>Desconto comercial (R$/@)</label><div class="in"><span>R$</span><input type="number" step="0.01" id="ger_r" value="0"></div></div>
@@ -145,7 +145,7 @@ footer b{color:var(--texto)}
       <div class="hint">O desconto em % é aplicado sobre a base MT; o desconto em R$ é subtraído depois, antes do desconto específico de cada categoria.</div>
 
       <h3>DESCONTO EXCLUSIVO · BOI 6 A 8 DENTES <label class="tg" style="float:right;letter-spacing:0"><input type="checkbox" id="m_b68" checked>mostrar boi 6–8</label></h3>
-      <div class="sub" style="margin-bottom:12px">Boi 6–8 = preço MT + Tier 1 − este desconto. Use valor negativo para acrescentar.</div>
+      <div class="sub" style="margin-bottom:12px">Boi 6–8 = preço MT + Tier 1 − desconto comercial − este desconto. Use valor negativo para acrescentar.</div>
       <div class="row">
         <div><label>Desconto do boi 6–8 dentes (%)</label><div class="in"><input type="number" step="0.01" id="b68_p" value="0"><span class="r">%</span></div></div>
         <div><label>Desconto do boi 6–8 dentes (R$/@)</label><div class="in"><span>R$</span><input type="number" step="0.01" id="b68_r" value="5"></div></div>
@@ -191,11 +191,11 @@ footer b{color:var(--texto)}
         <div class="linha"><span class="k">Desconto boi 6–8 dentes</span><span class="v" id="l_d68"></span></div>
         <div class="linha"><span class="k">Desconto boi 6–8</span><span class="v" id="l_d68p"></span></div>
         <div class="linha" id="ln_cic"><span class="k">Ciclo + Tier (jovem/fêmeas)</span><span class="v" id="l_cic"></span></div>
-        <div class="linha"><span class="k">Desconto comercial (jovem/fêmeas)</span><span class="v" id="l_ger"></span></div>
+        <div class="linha"><span class="k">Desconto comercial (todas)</span><span class="v" id="l_ger"></span></div>
         <div class="linha" id="ln_jov"><span class="k">Bônus exclusivo do boi jovem</span><span class="v" id="l_jov"></span></div>
         <div class="linha"><span class="k">Preço boi jovem (0–4 dentes)</span><span class="v amar" id="l_jovp"></span></div>
 
-        <div class="regra"><b>Regra de cálculo:</b> preço MT = B3 São Paulo + diferencial MT. Boi 6–8 = preço MT + Tier 1 − desconto 6–8. Boi jovem = base comercial + bônus de jovem. Base comercial = preço MT + ciclo completo + Tier 1 − desconto comercial. Fêmeas = base comercial − desconto da faixa (% e R$). Todos os ajustes aceitam + e −.</div>
+        <div class="regra"><b>Regra de cálculo:</b> preço MT = B3 São Paulo + diferencial MT. Boi 6–8 = preço MT + Tier 1 − desconto comercial − desconto 6–8. Boi jovem = base comercial + bônus de jovem. Base comercial = preço MT + ciclo completo + Tier 1 − desconto comercial. Fêmeas = base comercial − desconto da faixa (% e R$). Todos os ajustes aceitam + e −.</div>
 
         <div class="todos">
           <div class="t">TODOS OS PREÇOS FINAIS</div>
@@ -247,7 +247,7 @@ function calc(){
   const jov=on('a_jov')?mt*n('jov_p')/100+n('jov_r'):0;
   const ger=mt*n('ger_p')/100+n('ger_r');
   const d68=mt*n('b68_p')/100+n('b68_r');
-  const b68=mt+tier-d68;
+  const b68=mt+tier-ger-d68;
   const base=mt+cic+tier-ger;
   const bjov=base+jov;
   const fem=id=>base*(1-n('p_'+id)/100)-n('r_'+id);
