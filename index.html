@@ -84,6 +84,16 @@ tr.off td{opacity:.45}tr.off td .tg{opacity:1}
 .btn:active{transform:translateY(1px)}
 footer{text-align:center;color:var(--mudo);font-size:12px;padding:18px 20px 30px}
 footer b{color:var(--texto)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal.on{display:flex}
+.mbox{background:#fff;color:var(--texto);border-radius:14px;max-width:520px;width:100%;padding:18px 18px 16px;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.mbox h4{font-size:16px;margin-bottom:6px;color:var(--verde-esc)}
+.mbox p{font-size:13px;color:var(--mudo);margin-bottom:10px}
+.mbox textarea{width:100%;height:260px;font:13px/1.4 var(--sans);border:1.5px solid #C9D3CC;border-radius:8px;padding:10px;resize:vertical}
+.mbtns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.mbtns .btn{flex:1;min-width:140px}
+.btn.verde{background:#25D366;color:#fff}
+.btn.cinza{background:#E4E1D8;color:var(--texto)}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--verde-esc);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:.25s}
 .toast.on{opacity:1;transform:translateX(-50%)}
 @media (max-width:900px){.grid{grid-template-columns:1fr}.res{position:static}.row3{grid-template-columns:1fr 1fr 1fr}.row3 .nome{grid-column:1/-1;padding-bottom:0}}
@@ -204,6 +214,18 @@ footer b{color:var(--texto)}
 
 <footer><span id="pdfdata" style="display:none"></span>Ferramenta de apoio à negociação. Valores informativos e sujeitos à validação comercial.<br><b>Compra de Gado</b> · Pablo Mannarelli · 65 9 9236-9568</footer>
 <div class="toast" id="toast">Copiado</div>
+<div class="modal" id="modal" onclick="if(event.target===this)fechar()">
+  <div class="mbox">
+    <h4>Texto da cotação</h4>
+    <p>Já tentei copiar automaticamente. Se não copiou, use os botões abaixo ou selecione o texto.</p>
+    <textarea id="txt" readonly></textarea>
+    <div class="mbtns">
+      <button class="btn verde" id="btnwa" onclick="abrirWA()">Abrir no WhatsApp</button>
+      <button class="btn amar" onclick="copiarTxt()">Copiar texto</button>
+      <button class="btn cinza" onclick="fechar()">Fechar</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -263,8 +285,19 @@ function copiar(){
   t+=`*NOVILHAS*\n`+ULT.nov.map(L).join('\n')+`\n\n`;
   t+=`*VACAS*\n`+ULT.vac.map(L).join('\n')+`\n\n`;
   t+=`_Valores informativos, sujeitos à validação comercial._\nCompra de Gado · Pablo Mannarelli · 65 9 9236-9568`;
-  navigator.clipboard.writeText(t).then(()=>{const x=$('toast');x.classList.add('on');setTimeout(()=>x.classList.remove('on'),1800)});
+  TXT=t; $('txt').value=t; $('modal').classList.add('on');
+  copiarTxt();
 }
+let TXT='';
+function toast(m){const x=$('toast');x.textContent=m;x.classList.add('on');setTimeout(()=>x.classList.remove('on'),1800)}
+async function copiarTxt(){
+  let ok=false;
+  try{ if(navigator.clipboard&&window.isSecureContext){ await navigator.clipboard.writeText(TXT); ok=true; } }catch(e){}
+  if(!ok){ try{ const ta=$('txt'); ta.focus(); ta.select(); ta.setSelectionRange(0,ta.value.length); ok=document.execCommand('copy'); }catch(e){} }
+  toast(ok?'Copiado':'Não copiou. Use "Abrir no WhatsApp" ou selecione o texto.');
+}
+function abrirWA(){ window.open('https://wa.me/?text='+encodeURIComponent(TXT),'_blank'); }
+function fechar(){ $('modal').classList.remove('on'); }
 window.addEventListener('beforeprint',()=>{const a=new Date();const e=$('pdfdata');e.style.display='block';e.style.marginBottom='6px';e.textContent='Gerado em '+a.toLocaleDateString('pt-BR')+' às '+a.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});
 window.addEventListener('afterprint',()=>{$('pdfdata').style.display='none'});
 let DL=null; if(window.claude&&claude.use){claude.use('downloads').then(d=>{DL=d}).catch(()=>{})}
